@@ -3,8 +3,10 @@
 **THÔNG TIN SINH VIÊN**
 * **Môn học:** Cấu trúc dữ liệu và giải thuật
 * **Học kỳ:** Học kỳ 2 - Năm học 2025-2026
-* **Sinh viên:** [Tên để đây]
-* **MSSV:** [Chờ bạn cung cấp]
+* **Danh sách sinh viên:**
+1. **Trịnh Tuấn Phát** -   MSSV: 25120411
+2. **Đoàn Văn Tiến**   -   MSSV: 25120445
+3. **Võ Minh Triết**   -   MSSV: 25120457
 
 ---
 
