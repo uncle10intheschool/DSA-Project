@@ -23,17 +23,17 @@ Thay vì tiếp cận theo hướng sử dụng các hàm tiêu chuẩn, dự á
 ## CẤU TRÚC THƯ MỤC
 
 ```text
-Sorting-Benchmark
- ┣ README.md         # Báo cáo kỹ thuật tổng thể
- ┣ test_gen.cpp      # Bộ sinh Test cases
- ┣ Benchmark1        # Phiên bản kiến trúc nền tảng
- ┃ ┣  a1.cpp           # Bài A: Integer Sort 
- ┃ ┣  b1.cpp           # Bài B: Lexicographic Sort 
- ┃ ┗  c1.cpp           # Bài C: Length-aware Lexicographic Sort 
- ┗ Benchmark2        # Phiên bản tối ưu
-   ┣  a2.cpp           # Bài A: Tối ưu Integer Sort
-   ┣  b2.cpp           # Bài B: Tối ưu Lexicographic Sort
-   ┗  c2.cpp           # Bài C: Tối ưu Length-aware Lexicographic Sort
+📦 Sorting-Benchmark
+ ┣ 📜 README.md       # Báo cáo kỹ thuật tổng thể
+ ┣ 📜 test_gen.cpp    # Bộ sinh Test Cases
+ ┣ 📂 Benchmark1      # Phiên bản kiến trúc nền tảng
+ ┃ ┣ 📜 a1.cpp           # Bài A: Integer Sort 
+ ┃ ┣ 📜 b1.cpp           # Bài B: Lexicographic Sort 
+ ┃ ┗ 📜 c1.cpp           # Bài C: Length-aware Lexicographic String Sort 
+ ┗ 📂 Benchmark2      # Phiên bản tối ưu cực hạn
+   ┣ 📜 a2.cpp           # Bài A: Tối ưu Integer Sort
+   ┣ 📜 b2.cpp           # Bài B: Tối ưu Lexicographic Sort
+   ┗ 📜 c2.cpp           # Bài C: Tối ưu Length-aware Lexicographic String Sort
 ```
 
 ---
@@ -119,15 +119,15 @@ Lồng điều kiện độ dài vào hàm so sánh thông thường tạo rẽ 
 
 Nhắm phá vỡ QuickSort pivot tĩnh và bẻ gãy bộ nhớ Counting/Bucket Sort dựa trên biên độ Max-Min. Với N = 100000:
 
-* **Test 1 (Giảm dần từ INT_MAX):** Dãy nghịch thế cực đoan, ép phân hoạch QuickSort lệch tối đa, đẩy đệ quy lên O(N) và gây Stack Overflow.
+* **Test 1 (Giảm dần từ INT_MAX):** Dãy nghịch thế cực đoan, ép phân hoạch QuickSort lệch tối đa ở mọi bước. Độ sâu đệ quy leo thang lên O(N) tầng, tràn call stack tức thì.
 
-* **Test 2 (Tăng dần từ INT_MIN):** Mảng đã sắp xếp với số âm cực tiểu. Kiểm tra lỗi rẽ nhánh số âm/dương.
+* **Test 2 (Tăng dần từ INT_MIN):** Mảng đã sắp xếp hoàn toàn với giá trị khởi đầu INT_MIN. Kiểm tra lỗi rẽ nhánh khi xử lý số âm/dương và đồng thời là Worst-case thứ hai với mọi QuickSort dùng pivot đầu mảng.
 
-* **Test 3 (Xen kẽ INT_MIN, INT_MAX, 0 và ngẫu nhiên):** Biên độ Max-Min ~4 tỷ. Counting/Bucket Sort cấp phát mảng kích thước Max-Min sẽ lập tức OOM.
+* **Test 3 (Xen kẽ INT_MIN, INT_MAX, 0 và ngẫu nhiên):** Biên độ Max-Min xấp xỉ 4 tỷ. Bất kỳ giải pháp nào cấp phát mảng đếm kích thước (Max-Min) sẽ yêu cầu hàng chục GB RAM — OOM tức thì.
 
-* **Test 4 (Ngẫu nhiên toàn cục):** Khảo sát hiệu năng tổng quát và tốc độ luồng I/O tiêu chuẩn.
+* **Test 4 (Ngẫu nhiên toàn cục):** Phân bố đều trên toàn miền int 32-bit. Đây là baseline đo hiệu năng thực chiến và tốc độ luồng I/O dưới tải trọng đọc/ghi tối đa.
 
-* **Test 5 (99% phần tử trùng lặp):** 99.000 phần tử trùng + 1.000 ngẫu nhiên. Vô hiệu cơ chế chia QuickSort 2 hướng, ép tràn stack do phân hoạch lệch hoàn toàn.
+* **Test 5 (99% phần tử trùng lặp):** 99.000 phần tử bằng nhau cộng 1.000 giá trị ngẫu nhiên. QuickSort 2 chiều không phân biệt được phần tử bằng pivot — toàn bộ dồn về một phía, phân hoạch lệch hoàn toàn, đệ quy O(N) tầng, tràn stack.
 
 ---
 
@@ -135,11 +135,11 @@ Nhắm phá vỡ QuickSort pivot tĩnh và bẻ gãy bộ nhớ Counting/Bucket 
 
 Nhắm vào trượt cache và chi phí so sánh chuỗi nguyên khối. Với N = 100000:
 
-* **Test 1 & Test 3 (Bẫy tiền tố sâu + Đuôi đảo chiều):** Chuỗi 100 ký tự, 98 đầu toàn `'a'`, 2 cuối dao động (`z-a`, `a-z`). Ép `operator<` duyệt 98 ký tự vô nghĩa hàng triệu lần, gây trượt cache và cạn kiệt chu kỳ CPU.
+* **Test 1 & Test 3 (Bẫy tiền tố sâu + Đuôi đảo chiều):** Chuỗi 100 ký tự, 98 đầu toàn `'a'`, 2 cuối dao động (`z→a`, `a→z`). Mỗi lần `operator<` phải duyệt qua 98 ký tự vô nghĩa trước khi tìm ra điểm phân biệt — nhân lên hàng triệu lần trong quá trình sắp xếp, cạn kiệt chu kỳ CPU và gây trượt cache liên tục.
 
-* **Test 2 (Dãy nghịch thế đồng nhất):** Chuỗi 100 ký tự bắt đầu `'z'` giảm dần. Đánh gục `swap(string, string)` — C++ liên tục cấp phát/hủy heap cho chuỗi dài.
+* **Test 2 (Dãy nghịch thế đồng nhất):** 100.000 chuỗi 100 ký tự bắt đầu `'z'` giảm dần theo thứ tự từ điển ngược. Ép tối đa số lần `swap(string, string)` — mỗi swap là một cặp cấp phát/hủy heap cho chuỗi dài, tích lũy thành nút thắt bộ nhớ nghiêm trọng.
 
-* **Test 4 & Test 5 (Chiều dài và ký tự ngẫu nhiên):** Chuỗi dài 10–100 ký tự ngẫu nhiên. Đánh giá I/O và chi phí cấp phát `string` khi kích thước biến thiên liên tục.
+* **Test 4 & Test 5 (Chiều dài và ký tự ngẫu nhiên):** Chuỗi dài 10–100 ký tự với nội dung hoàn toàn ngẫu nhiên. Đánh giá chi phí I/O thực tế và overhead cấp phát `std::string` khi kích thước thay đổi liên tục qua từng phần tử.
 
 ---
 
@@ -147,13 +147,13 @@ Nhắm vào trượt cache và chi phí so sánh chuỗi nguyên khối. Với N
 
 Phá hủy bước tiền xử lý Bucket Sort. Với N = 10.000:
 
-* **Test 1 & Test 4 (Phá hủy Bucket + Nghịch thế sâu):** Toàn bộ 100 ký tự, tiền tố 96 chữ `'a'`/`'b'`, 4 cuối nghịch thế. Dồn hết vào bucket 100, vô hiệu tiền xử lý — nghẽn so sánh tiền tố sâu.
+* **Test 1 & Test 4 (Phá hủy Bucket + Nghịch thế sâu):** Toàn bộ chuỗi dài 100 ký tự, tiền tố 96 chữ `'a'`/`'b'`, 4 ký tự cuối nghịch thế. Dồn 100% dữ liệu vào bucket 100, vô hiệu hoàn toàn chiến lược phân loại — thuật toán lõi chịu toàn bộ áp lực với tiền tố sâu 96 ký tự.
 
-* **Test 2 (Sụp đổ phân phối):** 10.000 chuỗi đồng nhất 100 ký tự `'z'`. Gây nghẽn đệ quy nếu thuật toán lõi không có cơ chế dừng sớm.
+* **Test 2 (Sụp đổ phân phối):** 10.000 chuỗi đồng nhất 100 ký tự `'z'`. Nếu thuật toán lõi thiếu cơ chế dừng sớm khi toàn bộ phần tử bằng nhau, đệ quy tiếp tục chạy mà không có điều kiện dừng thực sự — sụp đổ hoàn toàn.
 
-* **Test 3 (Bẫy xen kẽ chẵn lẻ):** 10.000 chuỗi 100 ký tự, 99 chữ `'a'` + đuôi xen kẽ `'x'`/`'y'`. Ép phân hoạch đến ký tự cuối liên tục, đo chi phí đệ quy sâu.
+* **Test 3 (Bẫy xen kẽ chẵn lẻ):** 10.000 chuỗi 100 ký tự, 99 chữ `'a'` cộng đuôi xen kẽ `'x'`/`'y'`. Ép thuật toán phải duyệt đến tận ký tự cuối mới phân biệt được hai nhóm — đo chi phí đệ quy sâu ở mức độ cực đoan.
 
-* **Test 5 (Ngẫu nhiên khóa độ dài):** Chuỗi ngẫu nhiên, chiều dài cố định 100. Vô hiệu Bucket Sort, ép thuật toán lõi xử lý hoán vị chuỗi ở cường độ cao nhất.
+* **Test 5 (Ngẫu nhiên khóa độ dài):** Chuỗi nội dung ngẫu nhiên nhưng chiều dài cố định 100. Vô hiệu lợi thế Bucket Sort, buộc thuật toán lõi xử lý hoán vị ký tự ở cường độ cao nhất có thể.
 
 ---
 
