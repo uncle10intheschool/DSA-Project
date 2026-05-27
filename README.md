@@ -151,7 +151,7 @@ Phá hủy bước tiền xử lý Bucket Sort. Với N = 10.000:
 
 ---
 
-## PHẦN 3 — BENCHMARK 2
+##  PHẦN 3 — BENCHMARK 2
 
 Sau khi phân tích các nút thắt ở Benchmark 1 và bị tấn công bằng test đối kháng, phiên bản Benchmark 2 can thiệp sâu vào luồng I/O, Layout bộ nhớ và đổi mới tư duy thuật toán để thiết lập lớp phòng thủ.
 
