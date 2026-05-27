@@ -25,15 +25,7 @@ Thay vì tiếp cận theo hướng sử dụng các hàm tiêu chuẩn, dự á
 ```text
 📦 Sorting-Benchmark
  ┣ 📜 README.md       # Báo cáo kỹ thuật tổng thể
- ┣ 📜 test_gen.cpp    # Bộ sinh Test Cases
- ┣ 📂 Benchmark1      # Phiên bản kiến trúc nền tảng
- ┃ ┣ 📜 a1.cpp           # Bài A: Integer Sort 
- ┃ ┣ 📜 b1.cpp           # Bài B: Lexicographic Sort 
- ┃ ┗ 📜 c1.cpp           # Bài C: Length-aware Lexicographic String Sort 
- ┗ 📂 Benchmark2      # Phiên bản tối ưu cực hạn
-   ┣ 📜 a2.cpp           # Bài A: Tối ưu Integer Sort
-   ┣ 📜 b2.cpp           # Bài B: Tối ưu Lexicographic Sort
-   ┗ 📜 c2.cpp           # Bài C: Tối ưu Length-aware Lexicographic String Sort
+ ┗ 📜 test_gen.cpp    # Bộ sinh Test Cases
 ```
 
 ---
