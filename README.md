@@ -262,7 +262,7 @@ swap(idx[left], idx[mid]);
 | **I/O** | Nghẽn tại `cin`/`cout` | Custom Fast I/O / `fread` |
 | **RAM** | Phân mảnh heap động | Zero Allocation — bộ đệm tĩnh |
 | **Swap** | Di chuyển byte chuỗi thô | Pointer Indexing — 8 bytes |
-| **Kháng test đối kháng** | Dễ TLE / OOM | Miễn nhiễm — kiến trúc lai |
+| **Test đối kháng** | Dễ TLE / OOM | Miễn nhiễm — kiến trúc lai |
 
 ### Bài học cốt lõi
 
